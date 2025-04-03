@@ -11,6 +11,47 @@ display a red heart "❤️" make sure to increase or decrease the like counter 
 Theres a 'tweet' class you can use to style your tweet.
 */
 
+// Using an interface to describe props for Tweet component
+interface TweetProps {
+    id: number;
+    username: string;
+    content: string;
+    likes: number;
+    timestamp: string;
+}
+// Tweet component accepts props: username, content, likes, timestamp, 
+// which represent the data associated with a tweet.
+function Tweet({ id, username, content, likes, timestamp }: TweetProps) {
+    // Initialize state for whether user liked tweet and the number of likes
+    // These are things we want to render  
+    const [isLiked, setLiked] = useState(false);
+    const [numLikes, setNumLikes] = useState(likes);
 
+    // Function to handle the event that the user clicks like
+    function clickLike() {
+        // Change liked status to like/unliked
+        setLiked(!isLiked);
 
-// export default Tweet;
+        // Set the number of likes based on like status
+        setNumLikes((likeCount: number) => isLiked ? likeCount - 1 : likeCount + 1);
+    }
+
+    // Return TSX element
+    return (
+        <>
+            <div className="tweet">
+                <h2>{username}</h2>
+                <p>{content}</p>
+                <small>
+                    <p>{timestamp} ago</p>
+                </small>
+                <button onClick={clickLike}>
+                    {isLiked ? "❤️" : "🤍"}
+                </button>
+                <button>{numLikes} Likes</button>
+            </div>
+        </>
+    )
+}
+
+export default Tweet;
